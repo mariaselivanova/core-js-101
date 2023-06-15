@@ -257,9 +257,25 @@ function reverseInteger(num) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  const str = ccn.toString().split('').reverse().join('');
+  let sum = 0;
+  for (let i = 0; i < str.length; i += 1) {
+    let num = +str[i];
+    if (i % 2 !== 0) {
+      num *= 2;
+    }
+    if (num > 9) {
+      num = +num.toString()[0] + +num.toString()[1];
+    }
+    sum += num;
+  }
+  if (sum % 10 === 0) {
+    return true;
+  }
+  return false;
 }
+
 
 /**
  * Returns the digital root of integer:
@@ -351,8 +367,19 @@ function toNaryString(num, n) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  const res = [];
+  const mapped = pathes.map((item) => item.split(''));
+  for (let i = 0; i < mapped[0].length; i += 1) {
+    const current = mapped[0][i];
+    if (mapped.every((item) => item[i] === current)) {
+      res.push(current);
+    } else {
+      break;
+    }
+  }
+  const slashIndex = res.lastIndexOf('/');
+  return res.slice(0, slashIndex + 1).join('');
 }
 
 
