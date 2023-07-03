@@ -171,8 +171,22 @@ function isInsideCircle(/* circle, point */) {
  *   'abracadabra'  => 'c'
  *   'entente' => null
  */
-function findFirstSingleChar(/* str */) {
-  throw new Error('Not implemented');
+function findFirstSingleChar(str) {
+  const obj = str.split('').reduce((acc, item) => {
+    if (acc[item]) {
+      acc[item] += 1;
+    } else {
+      acc[item] = 1;
+    }
+    return acc;
+  }, {});
+  const arr = Object.entries(obj);
+  for (let i = 0; i < arr.length; i += 1) {
+    if (arr[i][1] === 1) {
+      return arr[i][0];
+    }
+  }
+  return null;
 }
 
 
@@ -325,8 +339,24 @@ function getDigitalRoot(num) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const arr = str.split('');
+  const comparisonArr = [];
+  for (let i = 0; i < arr.length; i += 1) {
+    if (arr[i] === '[' || arr[i] === '{' || arr[i] === '(' || arr[i] === '<') {
+      comparisonArr.push(arr[i]);
+    } else {
+      const last = comparisonArr.pop();
+      if (!last) {
+        return false;
+      }
+      if ((last === '[' && arr[i] !== ']') || (last === '(' && arr[i] !== ')') || (last === '{' && arr[i] !== '}') || (last === '<' && arr[i] !== '>')) {
+        return false;
+      }
+    }
+  }
+  if (comparisonArr.length > 0) return false;
+  return true;
 }
 
 
